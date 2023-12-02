@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise Library</title>
+</head>
+<body>
+    <h1>Anatomy Secrets</h1>
+    <nav>
+        <a href="{% url 'index' %}">Workouts</a>
+        <a href="{% url 'exercise_library' %}">Exercises</a>
+        <a href="{% url 'create' %}">Create</a>
+    </nav>
+    <hr>
+    <h2>Explore Exercises</h2>
+    <!-- Organize by muscle groups -->
+    {% for muscle_group, exercises in organized_data.items %}
+        <h2>{{ muscle_group }}</h2>
+        <ul>
+            {% for exercise in exercises %}
+                <li>{{ exercise.name }}</li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+</body>
+</html>

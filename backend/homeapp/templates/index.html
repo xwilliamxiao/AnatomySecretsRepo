@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Anatomy Secrets</title>
+</head>
+<body>
+    <h1>Anatomy Secrets</h1>
+    <nav>
+        <a href="{% url 'index' %}">Workouts</a>
+        <a href="{% url 'exercise_library' %}">Exercises</a>
+        <a href="{% url 'create' %}">Create</a>
+    </nav>
+    <hr>
+    <h2>Generate Workout Plans</h2>
+    <form method="post">
+        {% csrf_token %}
+
+        <h3>Select days for workouts:</h3>
+        <!-- Radio Buttons for Days -->
+        <input type="radio" id="3" name="workoutDays" value="3" required checked>
+        <label for="3">3 days/week</label><br>
+        <input type="radio" id="6" name="workoutDays" value="6" required>
+        <label for="6">6 days/week</label><br>
+
+        <h3>Select level for workouts</h3>
+        <!-- Radio Buttons for Difficulty -->
+        <input type="radio" id="Easy" name="workoutDifficulty" value="Easy" required checked>
+        <label for="Easy">Easy</label><br>
+        <input type="radio" id="Medium" name="workoutDifficulty" value="Medium" required>
+        <label for="Medium">Medium</label><br>
+        <input type="radio" id="Hard" name="workoutDifficulty" value="Hard" required>
+        <label for="Hard">Hard</label><br>
+
+        <input type="submit" name="search" value="Submit">
+    </form>
+    <hr>
+    <h3>Workout Tips</h3>
+    <p>*Workouts should be done to achieve the following goals:</p>
+    <p><b>Hypertrophy</b>= 3 sets of 8 to 12 reps</p>
+    <p><b>Strength</b>= 5 sets of 5 reps</p>
+    <p><b>Endurance</b> = 3 sets of 15 to 20 reps</p>
+    <form>
+        {% for showdata in refine_plan %}
+            <hr>
+            <h2>{{ showdata.name }}</h2>
+            <h3>Exercises:</h3>
+            <ul>
+                {% for exercise in showdata.exercises.all %}
+                    <li>
+                        <p><b>{{ exercise.name }}</b></p>
+                        <p>{{ exercise.description }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+    {% endfor %}
+    </form>
+
+</body>
+</html>
