@@ -11,17 +11,14 @@ const WorkoutPlan = () => {
                 { id: 1, name: 'Exercise 1', description: 'Description for Exercise 1', muscleGroup: 'Muscle Group 1' },
                 { id: 2, name: 'Exercise 2', description: 'Description for Exercise 2', muscleGroup: 'Muscle Group 2' },
                 { id: 3, name: 'Exercise 3', description: 'Description for Exercise 3', muscleGroup: 'Muscle Group 3' },
-                // Add more exercises as needed
             ],
         },
         {
             id: 2,
             name: 'Workout Plan 2',
             exercises: [
-                // Include exercises for Workout Plan 2
             ],
         },
-        // Add more workout plans as needed
     ];
 
     const [selectedDays, setSelectedDays] = useState(null);
@@ -31,7 +28,6 @@ const WorkoutPlan = () => {
     const handleGenerateWorkoutPlan = (e) => {
         e.preventDefault();
 
-        // Simulate generating a workout plan (replace this with actual logic in the future)
         const generatedPlan = {
             name: 'Generated Plan',
             exercises: [
@@ -39,7 +35,6 @@ const WorkoutPlan = () => {
                 { id: 2, name: 'Exercise B', description: 'Description for Exercise B', muscleGroup: 'Muscle Group B' },
                 { id: 3, name: 'Exercise C', description: 'Description for Exercise C', muscleGroup: 'Muscle Group C' },
                 { id: 4, name: 'Exercise D', description: 'Description for Exercise D', muscleGroup: 'Muscle Group D' },
-                // Add more exercises as needed
             ],
         };
 
@@ -52,20 +47,18 @@ const WorkoutPlan = () => {
             <NavBar/>
         <main className='Container'>
             <div className="row justify-content-center gap-4 " style={{ padding: '40px'}}>
-                {/* Left Card - Generate Workout Plan */}
+                {/* --- Generate Workout Plan Card ---*/}
                 <div className="card mb-4 col-lg-3 col-md-8 col-sm-8 col-8 align-items-center">
                     <div className="card-body">
                         <h3 className="card-title mb-3 fw-bold" style={{ marginTop: '30px'}}>Generate Workout Plan</h3>
                         <form onSubmit={handleGenerateWorkoutPlan}>
                             <h5>Select days for workouts:</h5>
-                            {/* Add radio buttons for days (you can customize as needed) */}
                             <input type="radio" required id="3" name="workoutDays" value="3" onChange={() => setSelectedDays(3)} />
                             <label htmlFor="3">3 days/week</label><br/>
                             <input type="radio" required id="6" name="workoutDays" value="6" onChange={() => setSelectedDays(6)} />
                             <label htmlFor="6">6 days/week</label><br/><br/>
 
                             <h5>Select level for workouts</h5>
-                            {/* Add radio buttons for difficulty (you can customize as needed) */}
                             <input type="radio" required id="Easy" name="workoutDifficulty" value="Easy" onChange={() => setSelectedDifficulty('Easy')} />
                             <label htmlFor="Easy">Easy</label><br/>
                             <input type="radio" required id="Medium" name="workoutDifficulty" value="Medium" onChange={() => setSelectedDifficulty('Medium')} />
@@ -73,12 +66,12 @@ const WorkoutPlan = () => {
                             <input type="radio" required id="Hard" name="workoutDifficulty" value="Hard" onChange={() => setSelectedDifficulty('Hard')} />
                             <label htmlFor="Hard">Hard</label><br/><br/>
 
-                            <button className="btn btn-primary" type="submit">Generate</button>
+                            <button className="btn btn-primary" type="submit" data-toggle="tooltip" data-placement="top" title="Generate workout plan with the given parameters" >Generate</button>
                         </form>
                     </div>
                 </div>
 
-                {/* Right Card - Display Generated Workout Plan */}
+                {/* --- Display Generated Workout Plan ---*/}
                 <div className="card mb-4 col-lg-8 col-md-8 col-sm-8 col-8">
                     <div>
                         <h3 className="card-title mb-3 fw-bold" style={{ marginTop: '50px', marginLeft: '40px' }}>

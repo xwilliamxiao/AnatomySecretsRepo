@@ -31,16 +31,27 @@ class WorkoutPlanList(APIView):
             return Response('Bad Data', status=status.HTTP_400_BAD_REQUEST)
 
 
+# class ExercisesList(APIView):
+#     def get(self, request):
+#         exercisesList = Exercises.objects.all()
+#         # --- Testing out serializing the workoutplan for the front end ---
+#         data = ExercisesSerializer(exercisesList, many=True).data
+#         print(data)
+#         # --- End of serializing ---
+#
+#         return Response(data)
+
 class ExercisesList(APIView):
     def get(self, request):
-        exercisesList = Exercises.objects.all()
-        # --- Testing out serializing the workoutplan for the front end ---
-        data = ExercisesSerializer(exercisesList, many=True).data
-        print(data)
-        # --- End of serializing ---
+        selected_muscle_group = request.query_params.get('muscle_group', None)
 
+        exercises_list = Exercises.objects.all()
+
+        if selected_muscle_group:
+            exercises_list = exercises_list.filter(muscle_group=selected_muscle_group)
+
+        data = ExercisesSerializer(exercises_list, many=True).data
         return Response(data)
-
 
 class UserCreatedExList(APIView):
     def get(self, request):
@@ -62,31 +73,31 @@ class UserCreatedExList(APIView):
 
 
 # ------------------------ OLD BACKEND -----------------------------------------
-def index(request):
-    workoutPlan = WorkoutPlan.objects.all()
-
-    # --- Testing out serializing the workoutplan for the front end ---
-    data = WorkoutPlanSerializer(workoutPlan, many=True).data
-    print(data)
-    # --- End of serializing ---
-
-    exercises = Exercises.objects.all()
-    print("ACTIVATED")
-
-    # Whenever the submit bottom is clicked
-    if request.method == "POST":
-        workout_day = request.POST.get('workoutDays')  # gets the radio button value
-        workout_difficulty = request.POST.get('workoutDifficulty')
-
-        # Filters the workout plans
-        refine_plan = WorkoutPlan.objects.filter(days=workout_day, difficulty=workout_difficulty).distinct()
-
-        return render(request, 'index.html',
-                      {'workoutPlan': workoutPlan, 'exercises': exercises, 'refine_plan': refine_plan, })
-
-    return render(request, 'index.html',
-                  {'workoutPlan': workoutPlan, 'exercises': exercises})
-
+# def index(request):
+#     workoutPlan = WorkoutPlan.objects.all()
+#
+#     # --- Testing out serializing the workoutplan for the front end ---
+#     data = WorkoutPlanSerializer(workoutPlan, many=True).data
+#     print(data)
+#     # --- End of serializing ---
+#
+#     exercises = Exercises.objects.all()
+#     print("ACTIVATED")
+#
+#     # Whenever the submit bottom is clicked
+#     if request.method == "POST":
+#         workout_day = request.POST.get('workoutDays')  # gets the radio button value
+#         workout_difficulty = request.POST.get('workoutDifficulty')
+#
+#         # Filters the workout plans
+#         refine_plan = WorkoutPlan.objects.filter(days=workout_day, difficulty=workout_difficulty).distinct()
+#
+#         return render(request, 'index.html',
+#                       {'workoutPlan': workoutPlan, 'exercises': exercises, 'refine_plan': refine_plan, })
+#
+#     return render(request, 'index.html',
+#                   {'workoutPlan': workoutPlan, 'exercises': exercises})
+#
 
 def exercise_library(request):
     exercises_group = Exercises.objects.all().order_by('muscle_group')
