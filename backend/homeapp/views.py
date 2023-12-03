@@ -12,13 +12,32 @@ from rest_framework import status
 # Create your views here.
 class WorkoutPlanList(APIView):
     def get(self, request):
-        workoutPlan = WorkoutPlan.objects.all()
-        # --- Testing out serializing the workoutplan for the front end ---
-        data = WorkoutPlanSerializer(workoutPlan, many=True).data
-        print(data)
-        # --- End of serializing ---
+        # Get query parameters
+        selected_days = request.query_params.get('days', None)
+        selected_difficulty = request.query_params.get('difficulty', None)
 
+        # Get all workout plans initially
+        workout_plans = WorkoutPlan.objects.all()
+
+        # Filter workout plans based on query parameters
+        if selected_days:
+            workout_plans = workout_plans.filter(days=selected_days)
+        if selected_difficulty:
+            workout_plans = workout_plans.filter(difficulty=selected_difficulty)
+
+        # Serialize and return the filtered data
+        data = WorkoutPlanSerializer(workout_plans, many=True).data
         return Response(data)
+
+        # --- OLD CODE BELOW ---
+        # workoutPlan = WorkoutPlan.objects.all()
+        # # --- Testing out serializing the workoutplan for the front end ---
+        # data = WorkoutPlanSerializer(workoutPlan, many=True).data
+        # print(data)
+        # # --- End of serializing ---
+        #
+        # return Response(data)
+        # --- OLD CODE ABOVE ---
 
     # This is only going to be used for the User Created Workout Plans
     # EVERYTHING ELSE DOES NOT NEED IT INCLUDING THIS ONE RN (WorkoutPlan) ITS AN EXAMPLE

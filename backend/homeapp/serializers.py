@@ -6,6 +6,7 @@ class WorkoutPlanSerializer(serializers.ModelSerializer):
     class Meta:
         model = WorkoutPlan
         fields = '__all__'
+        depth = 1
 
 
 class ExercisesSerializer(serializers.ModelSerializer):
