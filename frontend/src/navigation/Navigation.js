@@ -24,7 +24,7 @@ function NavBar() {
                             Exercises
                         </Nav.Link>
                        {/* --- Create tab ---*/}
-                        <Nav.Link as={NavLink} to="/create-workout" style={{ borderRadius: '5px' }} activeStyle={{ backgroundColor: '#007bff', color: '#fff' }}>
+                        <Nav.Link as={NavLink} to="/create" style={{ borderRadius: '5px' }} activeStyle={{ backgroundColor: '#007bff', color: '#fff' }}>
                             Create
                         </Nav.Link>
                     </Nav>

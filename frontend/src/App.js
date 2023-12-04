@@ -15,7 +15,7 @@ class App extends React.Component {
                     <Routes>
                         <Route path="/" element={<WorkoutPlan />} />
                         <Route path="/exercise-list" element={<Exercise />} />
-                        <Route path="/create-workout" element={<CreateWorkout />} />
+                        <Route path="/create" element={<CreateWorkout />} />
                         {/* Add more routes as needed */}
                     </Routes>
                 </div>

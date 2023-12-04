@@ -1,38 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Badge from 'react-bootstrap/Badge';
 import NavBar from "../navigation/Navigation";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 const CreateWorkout = () => {
-    const [exerciseName, setExerciseName] = useState('');
-    const [exerciseDescription, setExerciseDescription] = useState('');
-    const [muscleGroup, setMuscleGroup] = useState('');
+    const [exercise_name, setExerciseName] = useState('');
+    const [exercise_description, setExerciseDescription] = useState('');
+    const [muscle_group, setMuscleGroup] = useState('');
     const [workoutCards, setWorkoutCards] = useState([]);
+
+    // Gets the existing data from our database
+    useEffect(() => {
+        fetch('http://localhost:8000/create/')
+            .then(response => response.json())
+            .then(data => setWorkoutCards(data))
+            .catch(error => console.error('Error fetching data:', error));
+    }, []); // Empty dependency array ensures the effect runs once on mount
+
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
 
         // Check if all fields are filled
-        if (!exerciseName || !exerciseDescription || !muscleGroup) {
-            alert('Please fill in all fields.');
+        if (!exercise_name || !exercise_description || !muscle_group) {
+            alert('Complete all required fields to create exercise.');
             return;
         }
 
-        // Create a new workout card
-        const newCard = {
-            id: workoutCards.length + 1,
-            exerciseName,
-            exerciseDescription,
-            muscleGroup,
+        // Create a new user-created exercise
+        const newUserExercise = {
+            exercise_name,
+            exercise_description,
+            muscle_group,
         };
 
         // Update the state with the new card
-        setWorkoutCards([...workoutCards, newCard]);
+        setWorkoutCards([...workoutCards, newUserExercise]);
 
         // Clear the input fields
         setExerciseName('');
         setExerciseDescription('');
         setMuscleGroup('');
+
+        // Send a POST request to save the user-created exercise to the backend
+        fetch('http://localhost:8000/create/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newUserExercise),
+        })
+            .then(response => response.json())
+            .then(data => console.log('User-created exercise saved:', data))
+            .catch(error => console.error('Error saving user-created exercise:', error));
     };
 
     return (
@@ -41,58 +62,81 @@ const CreateWorkout = () => {
         <main className='Container'>
             <div className="row justify-content-center gap-4" style={{ padding: '40px' }}>
                 {/* Create Exercise Card */}
-                <div className="card mb-4 col-lg-3 col-md-8 col-sm-8 col-8 align-items-center">
+                <div className="card mb-4 col-lg-3 col-md-8 col-sm-8 col-8 align-items-center border border-3">
+                {/*<div className="card text-white bg-dark mb-4 col-lg-3 col-md-8 col-sm-8 col-8 align-items-center border border-3">*/}
                     <div className="card-body">
                         <h3 className="card-title mb-3 fw-bold" style={{ marginTop: '30px' }}>Generate Workout Plans</h3>
                         <form onSubmit={handleFormSubmit}>
                             <div className="mb-3">
-                                <label htmlFor="exerciseName" className="form-label">Exercise Name:</label>
+                                <label htmlFor="exercise_name" className="form-label">Exercise Name:</label>
                                 <input
                                     type="text"
-                                    id="exerciseName"
+                                    id="exercise_name"
                                     className="form-control"
-                                    value={exerciseName}
+                                    value={exercise_name}
                                     onChange={(e) => setExerciseName(e.target.value)}
                                 />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="exerciseDescription" className="form-label">Exercise Description:</label>
+                                <label htmlFor="exercise_description" className="form-label">Exercise Description:</label>
                                 <input
                                     type="text"
-                                    id="exerciseDescription"
+                                    id="exercise_description"
                                     className="form-control"
-                                    value={exerciseDescription}
+                                    value={exercise_description}
                                     onChange={(e) => setExerciseDescription(e.target.value)}
                                 />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="muscleGroup" className="form-label">Muscle Group:</label>
-                                <input
-                                    type="text"
-                                    id="muscleGroup"
+                                <label htmlFor="muscle_group" className="form-label">Muscle Group:</label>
+                                <select
+                                    id="muscle_group"
                                     className="form-control"
-                                    value={muscleGroup}
+                                    value={muscle_group}
                                     onChange={(e) => setMuscleGroup(e.target.value)}
-                                />
+                                >
+                                    <option value="Biceps">Biceps</option>
+                                    <option value="Triceps">Triceps</option>
+                                    <option value="Shoulders">Shoulders</option>
+                                    <option value="Chest">Chest</option>
+                                    <option value="Back">Back</option>
+                                    <option value="Quadriceps">Quadriceps</option>
+                                    <option value="Hamstring">Hamstring</option>
+                                    <option value="Calf">Calf</option>
+                                    <option value="Abs">Abs</option>
+                                </select>
                             </div>
-                            <button type="submit" className="btn btn-primary">Create Workout Card</button>
+                            <button type="submit" className="btn btn-primary">Generate</button>
                         </form>
                     </div>
                 </div>
 
                 {/* Display generated workout cards */}
-                <div className="card mb-4 col-lg-8 col-md-8 col-sm-8 col-8">
+                <div className="card mb-4 col-lg-8 col-md-8 col-sm-8 col-8 border border-3" >
                     <div>
                         <h3 className="card-title mb-3 fw-bold" style={{ marginTop: '50px', marginLeft: '40px' }}>The Workout Plan Name</h3>
                     </div>
-                    <div className="d-flex flex-wrap gap-5 align-items-center justify-content-center" style={{ padding: '20px' }}>
+                    {/*<div className="d-flex flex-wrap gap-5 align-items-center justify-content-center" style={{ padding: '20px' }}>
                         {workoutCards.map((card) => (
                             <div key={card.id} className="col-lg-3 col-md-8 mb-4">
-                                <div className="card">
+                                <div className="card shadow-sm border border-1">
                                     <div className="card-body">
-                                        <h3 className="card-title mb-3">{card.exerciseName}</h3>
-                                        <Badge variant="info" className="muscle-group-badge bg-dark">Muscle Group: {card.muscleGroup}</Badge>
-                                        <p className="card-text mt-3">{card.exerciseDescription}</p>
+                                        <h5 className="card-title mb-3">{card.exercise_name}</h5>
+                                        <Badge variant="info" className="muscle-group-badge bg-dark">{card.muscle_group}</Badge>
+                                        <p className="card-text mt-3">{card.exercise_description}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>*/}
+                    <div className="row row-cols-1 row-cols-md-1 row-cols-lg-3 g-4" style={{ padding: '20px' }}>
+                        {workoutCards.map((card) => (
+                            <div key={card.id} className="col mb-4">
+                                <div className="card h-100 shadow-sm border border-1">
+                                    <div className="card-body">
+                                        <h5 className="card-title mb-3">{card.exercise_name}</h5>
+                                        <Badge variant="info" className="muscle-group-badge bg-dark">{card.muscle_group}</Badge>
+                                        <p className="card-text mt-3">{card.exercise_description}</p>
                                     </div>
                                 </div>
                             </div>

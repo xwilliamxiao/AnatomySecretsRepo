@@ -29,36 +29,13 @@ class WorkoutPlanList(APIView):
         data = WorkoutPlanSerializer(workout_plans, many=True).data
         return Response(data)
 
-        # --- OLD CODE BELOW ---
-        # workoutPlan = WorkoutPlan.objects.all()
-        # # --- Testing out serializing the workoutplan for the front end ---
-        # data = WorkoutPlanSerializer(workoutPlan, many=True).data
-        # print(data)
-        # # --- End of serializing ---
-        #
-        # return Response(data)
-        # --- OLD CODE ABOVE ---
-
-    # This is only going to be used for the User Created Workout Plans
-    # EVERYTHING ELSE DOES NOT NEED IT INCLUDING THIS ONE RN (WorkoutPlan) ITS AN EXAMPLE
-    def post(self, request):
-        serializer = WorkoutPlanSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response('Bad Data', status=status.HTTP_400_BAD_REQUEST)
-
-
-# class ExercisesList(APIView):
-#     def get(self, request):
-#         exercisesList = Exercises.objects.all()
-#         # --- Testing out serializing the workoutplan for the front end ---
-#         data = ExercisesSerializer(exercisesList, many=True).data
-#         print(data)
-#         # --- End of serializing ---
-#
-#         return Response(data)
+    # def post(self, request):
+    #     serializer = WorkoutPlanSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #     else:
+    #         return Response('Bad Data', status=status.HTTP_400_BAD_REQUEST)
 
 class ExercisesList(APIView):
     def get(self, request):
@@ -72,14 +49,11 @@ class ExercisesList(APIView):
         data = ExercisesSerializer(exercises_list, many=True).data
         return Response(data)
 
+
 class UserCreatedExList(APIView):
     def get(self, request):
         userCreatedExList = UserCreatedEx.objects.all()
-        # --- Testing out serializing the workoutplan for the front end ---
         data = UserCreatedExSerializer(userCreatedExList, many=True).data
-        print(data)
-        # --- End of serializing ---
-
         return Response(data)
 
     def post(self, request):
@@ -88,7 +62,7 @@ class UserCreatedExList(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            return Response('Bad Data', status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # ------------------------ OLD BACKEND -----------------------------------------
@@ -118,25 +92,25 @@ class UserCreatedExList(APIView):
 #                   {'workoutPlan': workoutPlan, 'exercises': exercises})
 #
 
-def exercise_library(request):
-    exercises_group = Exercises.objects.all().order_by('muscle_group')
-    organized_data = {}
-    for exercise in exercises_group:
-        muscle_group = exercise.muscle_group
-        if muscle_group not in organized_data:
-            organized_data[muscle_group] = []
-        organized_data[muscle_group].append(exercise)
-
-    return render(request, 'exercise_library.html', {'organized_data': organized_data, })  # 'exercises':exercises
-
-
-def create_workout(request):
-    if request.method == "POST":
-        new_name = request.POST.get('exercise_name')
-        new_muscle_group = request.POST.get('muscle_group')
-        new_description = request.POST.get('exercise_description')
-        new_exercise = UserCreatedEx.objects.create(exercise_name=new_name, muscle_group=new_muscle_group,
-                                                    exercise_description=new_description)
-        return redirect('create')
-    user_exercise = UserCreatedEx.objects.all()
-    return render(request, 'create.html', {'user_exercise': user_exercise})
+# def exercise_library(request):
+#     exercises_group = Exercises.objects.all().order_by('muscle_group')
+#     organized_data = {}
+#     for exercise in exercises_group:
+#         muscle_group = exercise.muscle_group
+#         if muscle_group not in organized_data:
+#             organized_data[muscle_group] = []
+#         organized_data[muscle_group].append(exercise)
+#
+#     return render(request, 'exercise_library.html', {'organized_data': organized_data, })  # 'exercises':exercises
+#
+#
+# def create_workout(request):
+#     if request.method == "POST":
+#         new_name = request.POST.get('exercise_name')
+#         new_muscle_group = request.POST.get('muscle_group')
+#         new_description = request.POST.get('exercise_description')
+#         new_exercise = UserCreatedEx.objects.create(exercise_name=new_name, muscle_group=new_muscle_group,
+#                                                     exercise_description=new_description)
+#         return redirect('create')
+#     user_exercise = UserCreatedEx.objects.all()
+#     return render(request, 'create.html', {'user_exercise': user_exercise})

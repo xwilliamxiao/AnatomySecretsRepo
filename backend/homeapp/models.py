@@ -35,4 +35,4 @@ class UserCreatedEx(models.Model):
 
     # This just renames what is listed in the database
     def __str__(self):
-        return self.name
+        return self.exercise_name
