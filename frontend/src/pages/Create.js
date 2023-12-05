@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Badge from 'react-bootstrap/Badge';
 import NavBar from "../navigation/Navigation";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 
 const CreateWorkout = () => {
@@ -56,16 +57,19 @@ const CreateWorkout = () => {
             .catch(error => console.error('Error saving user-created exercise:', error));
     };
 
+    const tooltip = <Tooltip>Add exersises for the community.</Tooltip>;
+
     return (
-        <div>
+        <div style={{ backgroundColor: '#F3F3F3' }}>
             <NavBar/>
         <main className='Container'>
             <div className="row justify-content-center gap-4" style={{ padding: '40px' }}>
                 {/* Create Exercise Card */}
-                <div className="card mb-4 col-lg-3 col-md-8 col-sm-8 col-8 align-items-center border border-3">
+                <div className="card mb-4 col-lg-3 col-md-8 col-sm-8 col-8 align-items-center border border-3 ">
                 {/*<div className="card text-white bg-dark mb-4 col-lg-3 col-md-8 col-sm-8 col-8 align-items-center border border-3">*/}
                     <div className="card-body">
-                        <h3 className="card-title mb-3 fw-bold" style={{ marginTop: '30px' }}>Generate Workout Plans</h3>
+                        <h3 className="card-title mb-3 fw-bold" style={{ marginTop: '20px' }}>Add Exercises</h3>
+                        <p>Complete the following criteria below to add exercises into the community.</p>
                         <form onSubmit={handleFormSubmit}>
                             <div className="mb-3">
                                 <label htmlFor="exercise_name" className="form-label">Exercise Name:</label>
@@ -106,29 +110,20 @@ const CreateWorkout = () => {
                                     <option value="Abs">Abs</option>
                                 </select>
                             </div>
-                            <button type="submit" className="btn btn-primary">Generate</button>
+                            <OverlayTrigger placement="bottom" overlay={tooltip}>
+                            <button type="submit" className="btn btn-primary" style={{ marginTop: '20px', marginBottom: '20px'}}>Generate</button>
+                            </OverlayTrigger>
                         </form>
                     </div>
                 </div>
 
-                {/* Display generated workout cards */}
+                {/*--- Display generated workout cards ---*/}
                 <div className="card mb-4 col-lg-8 col-md-8 col-sm-8 col-8 border border-3" >
-                    <div>
-                        <h3 className="card-title mb-3 fw-bold" style={{ marginTop: '50px', marginLeft: '40px' }}>The Workout Plan Name</h3>
+                    <div className="card-body">
+                        <h3 className="card-title mb-3 fw-bold" style={{ marginTop: '20px' }}>Community Exercises</h3>
+                        <p>Below is a list of exercises that were created by our community.</p>
                     </div>
-                    {/*<div className="d-flex flex-wrap gap-5 align-items-center justify-content-center" style={{ padding: '20px' }}>
-                        {workoutCards.map((card) => (
-                            <div key={card.id} className="col-lg-3 col-md-8 mb-4">
-                                <div className="card shadow-sm border border-1">
-                                    <div className="card-body">
-                                        <h5 className="card-title mb-3">{card.exercise_name}</h5>
-                                        <Badge variant="info" className="muscle-group-badge bg-dark">{card.muscle_group}</Badge>
-                                        <p className="card-text mt-3">{card.exercise_description}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>*/}
+                    {/*--- Exercise Cards ---*/}
                     <div className="row row-cols-1 row-cols-md-1 row-cols-lg-3 g-4" style={{ padding: '20px' }}>
                         {workoutCards.map((card) => (
                             <div key={card.id} className="col mb-4">
