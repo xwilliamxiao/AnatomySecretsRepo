@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-
 import CreateWorkout from './pages/Create'; // Import the CreateWorkout component
 import Exercise from "./pages/Exercise";
 import WorkoutPlan from "./pages/WorkoutPlan";
@@ -16,7 +15,6 @@ class App extends React.Component {
                         <Route path="/" element={<WorkoutPlan />} />
                         <Route path="/exercise-list" element={<Exercise />} />
                         <Route path="/create" element={<CreateWorkout />} />
-                        {/* Add more routes as needed */}
                     </Routes>
                 </div>
             </Router>

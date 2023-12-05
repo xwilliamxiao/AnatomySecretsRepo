@@ -136,7 +136,7 @@ const Exercise = () => {
     const muscleGroups = ['All Exercises','Biceps', 'Triceps', 'Shoulders', 'Chest', 'Back', 'Quadriceps', 'Hamstring', 'Calf', 'Abs'];
 
     return (
-        <div>
+        /*<div>
             <NavBar />
             <main className='Container'>
                 <div className="row justify-content-center gap-4 " style={{ padding: '40px' }}>
@@ -158,10 +158,10 @@ const Exercise = () => {
                         <div>
                             <h3 className="card-title mb-3 fw-bold" style={{ marginTop: '50px', marginLeft: '40px' }}>Exercise List</h3>
                         </div>
-                        <div className="row d-flex flex-wrap gap-3 align-items-center justify-content-center" style={{ padding: '20px' }}>
+                        <div className="row row-cols-1 row-cols-md-3 g-4" style={{ padding: '20px' }}>
                             {exercises.map((exercise) => (
-                                <div key={exercise.id} className="col-lg-3 col-md-8">
-                                    <div className="card mb-4">
+                                <div key={exercise.id} className="col-md-4">
+                                    <div className="card h-100 mb-4">
                                         <div className="card-body">
                                             <h3 className="card-title mb-3">{exercise.name}</h3>
                                             <span className="badge rounded-pill bg-dark">{exercise.muscle_group}</span>
@@ -176,7 +176,54 @@ const Exercise = () => {
                     </div>
                 </div>
             </main>
+        </div>*/
+
+        <div style={{ backgroundColor: '#F3F3F3' }}>
+            <NavBar />
+            <main className='Container'>
+                <div className="row justify-content-center gap-4 " style={{ padding: '40px' }}>
+                    {/* List Group */}
+                    <div className="col-lg-3 col-md-8 col-sm-8 col-8 align-items-center">
+                        <div className="list-group w-100 border border-3">
+                            {muscleGroups.map((group, index) => (
+                                <button
+                                    key={index}
+                                    type="button"
+                                    className={`list-group-item list-group-item-action ${group === selectedMuscleGroup || (group === 'All Exercises' && selectedMuscleGroup === null) ? 'active' : ''}`}
+                                    onClick={() => setSelectedMuscleGroup(group === 'All Exercises' ? null : group)}
+                                >
+                                    {group}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Exercise Cards */}
+                    <div className="card mb-4 col-lg-8 col-md-8 col-sm-8 col-8 border border-3">
+                        <div className="card-body">
+                            <h3 className="card-title mb-3 fw-bold" style={{ marginTop: '20px', marginBottom: '20px'}}>Exercise List</h3>
+                            <p>Below is a list for the selected exercises.</p>
+                        </div>
+                        <div className="row row-cols-1 row-cols-md-3 g-4" style={{ padding: '20px' }}>
+                            {exercises.map((exercise) => (
+                                <div key={exercise.id} className="col-md-4">
+                                    <div className="card h-100 shadow-sm mb-4">
+                                        <div className="card-body">
+                                            <h5 className="card-title mb-3">{exercise.name}</h5>
+                                            <span className="badge rounded-pill bg-dark">{exercise.muscle_group}</span>
+                                            <p className="card-text mt-3">
+                                                {exercise.description}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </main>
         </div>
+
     );
 };
 
