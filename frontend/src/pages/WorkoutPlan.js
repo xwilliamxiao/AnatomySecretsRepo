@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import NavBar from "../navigation/Navigation";
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import Badge from 'react-bootstrap/Badge';
 
 const WorkoutPlan = () => {
     const [workoutPlans, setWorkoutPlans] = useState([]);
@@ -39,7 +40,10 @@ const WorkoutPlan = () => {
                     <div className="card mb-4 col-lg-3 col-md-8 col-sm-8 col-8 align-items-center border border-3">
                         <div className="card-body">
                             <h3 className="card-title mb-3 fw-bold" style={{ marginTop: '20px', marginBottom: '20px'}}>Generate Workout Plan</h3>
+                            <p> Configure workout requirements in order to generate a workout plan.</p>
+
                             <form onSubmit={handleGenerateWorkoutPlan}>
+
                                 {/*--- Radio buttons for workout days ---*/}
                                 <h6>Select days for workouts:</h6>
                                 <input type="radio" required id="3" name="workoutDays" value="3" onChange={() => setSelectedDays(3)} />
@@ -58,76 +62,54 @@ const WorkoutPlan = () => {
 
                                 {/*--- Generate the workout from the given radio buttons ---*/}
                                 <OverlayTrigger placement="bottom" overlay={tooltip}>
-                                <button className="btn btn-primary" type="submit">
-                                    Generate
-                                </button>
+                                    <button className="btn btn-primary" type="submit">
+                                        Generate
+                                    </button>
                                 </OverlayTrigger>
                             </form>
                         </div>
                     </div>
                     {/* --- Generate Workout Plan Card ---*/}
-                    {/*<div className="card mb-4 col-lg-8 col-md-8 col-sm-8 col-8">*/}
-                    {/*    <div>*/}
-                    {/*        <h3 className="card-title mb-3 fw-bold" style={{ marginTop: '50px', marginLeft: '40px' }}>*/}
-                    {/*            {generatedWorkoutPlan.length > 0 ? 'Generated Plans' : 'No generated plans'}*/}
-                    {/*        </h3>*/}
-                    {/*    </div>*/}
-                    {/*    <div className="d-flex flex-wrap gap-5 align-items-center justify-content-center" style={{ padding: '20px' }}>*/}
-                    {/*        {generatedWorkoutPlan.map((generatedPlan) => (*/}
-                    {/*            <div key={generatedPlan.id} className="col-lg-3 col-md-8">*/}
-                    {/*                <div className="card mb-4">*/}
-                    {/*                    <div className="card-body">*/}
-
-                    {/*                        <h3 className="card-title mb-3">{generatedPlan.name}</h3>*/}
-
-                    {/*                        /!* --- Exercises within the workout card --- *!/*/}
-                    {/*                        {generatedPlan.exercises.map((exercise) => (*/}
-                    {/*                            <div key={exercise.id}>*/}
-                    {/*                                <hr style={{ margin: '10px 0', borderColor: 'gray' }} />*/}
-                    {/*                                <h5>{exercise.name}</h5>*/}
-                    {/*                                <span className="badge rounded-pill bg-dark">{exercise.muscle_group}</span>*/}
-                    {/*                                <p>Description: {exercise.description}</p>*/}
-                    {/*                            </div>*/}
-                    {/*                        ))}*/}
-                    {/*                    </div>*/}
-                    {/*                </div>*/}
-                    {/*            </div>*/}
-                    {/*        ))}*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
                     <div className="card mb-4 col-lg-8 col-md-8 col-sm-8 col-8 border border-3">
                         <div className="card-body">
                             <h3 className="card-title mb-3 fw-bold" style={{ marginTop: '20px'}}>
                                 {generatedWorkoutPlan.length > 0 ? 'Generated Plans' : 'No generated plans'}
                             </h3>
-                            <p>The following exercise amounts depends on the various goals that is wanted to be achieved.</p>
+                            <p>The following exercise amounts depend on the various goals that are wanted to be achieved.</p>
                             <ul>
-                                <li><b>Hypertrophy</b>= 3 sets of 8 to 12 reps</li>
-                                <li><b>Strength</b>= 5 sets of 5 reps</li>
+                                <li><b>Hypertrophy</b> = 3 sets of 8 to 12 reps</li>
+                                <li><b>Strength</b> = 5 sets of 5 reps</li>
                                 <li><b>Endurance</b> = 3 sets of 15 to 20 reps</li>
                             </ul>
-
                         </div>
-                        <div className="d-flex flex-wrap gap-5 justify-content-center" style={{ padding: '20px' }}>
-                            <div className="row row-cols-1 row-cols-md-3 g-4">
-                                {generatedWorkoutPlan.map((generatedPlan) => (
-                                    <div key={generatedPlan.id} className="col-md-4 d-flex flex-column">
-                                        <div className="card h-100 shadow-sm border border-1">
-                                            <div className="card-body">
-                                                <h4 className="card-title mb-3 fw-bold" style={{ marginTop: '20px'}}>{generatedPlan.name}</h4>
+                        <div className="row row-cols-1 gap-4" style={{ padding: '15px' }}>
+                            {generatedWorkoutPlan.map((generatedPlan) => (
+                                <div key={generatedPlan.id} className="col">
+                                    {/*--- Card containing the workouts ---*/}
+                                    <div className="card h-100 shadow-sm border border-1" style={{ backgroundColor: '#FBFBFB' }}>
+                                        <div className="card-header">
+                                            <b>{generatedPlan.name}</b>
+                                        </div>
+                                        <div className="card-body d-flex flex-column">
+                                            <div className="row row-cols-1 row-cols-md-3 g-4 flex-fill">
                                                 {generatedPlan.exercises.map((exercise) => (
-                                                    <div key={exercise.id}>
-                                                        <hr style={{ margin: '10px 0', borderColor: 'gray' }} />
-                                                        <h5>{exercise.name}</h5>
-                                                        <span className="badge rounded-pill bg-dark">{exercise.muscle_group}</span>
-                                                        <p>Description: {exercise.description}</p>
+                                                    <div key={exercise.id} className="col mb-3">
+                                                        <div className="card shadow-sm  h-100">
+                                                            <div className="card-body d-flex flex-column">
+                                                                <div className="mb-3">
+                                                                    <h5 className="card-title mb-3">{exercise.name}</h5>
+                                                                    <Badge variant="info" className="muscle-group-badge bg-dark">{exercise.muscle_group}</Badge>
+                                                                    <p className="card-text mt-3">{exercise.description}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 ))}
                                             </div>
                                         </div>
                                     </div>
-                                ))}
-                            </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>
