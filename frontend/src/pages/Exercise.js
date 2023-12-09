@@ -7,6 +7,7 @@ const Exercise = () => {
     const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
+        // Fetch exercises from the Django backend
         const apiUrl = selectedMuscleGroup
             ? `http://localhost:8000/exercise_library/?muscle_group=${selectedMuscleGroup}`
             : 'http://localhost:8000/exercise_library/';
@@ -17,6 +18,7 @@ const Exercise = () => {
             .catch(error => console.error('Error fetching exercises:', error));
     }, [selectedMuscleGroup]);
 
+    // Muscle group options for the dropdown
     const muscleGroups = ['All Exercises', 'Biceps', 'Triceps', 'Shoulders', 'Chest', 'Back', 'Quadriceps', 'Hamstring', 'Calf', 'Abs'];
 
     // Filter exercises based on search term
@@ -29,7 +31,7 @@ const Exercise = () => {
             <NavBar />
             <main className='Container'>
                 <div className="row justify-content-center gap-4 " style={{ padding: '40px' }}>
-                    {/* List Group */}
+                    {/* --- List Group --- */}
                     <div className="col-lg-3 col-md-8 col-sm-8 col-8 align-items-center">
                         <div className="list-group w-100 border border-3">
                             {muscleGroups.map((group, index) => (
@@ -45,7 +47,7 @@ const Exercise = () => {
                         </div>
                     </div>
 
-                    {/* Exercise Cards */}
+                    {/* --- Exercise Cards --- */}
                     <div className="card mb-4 col-lg-8 col-md-8 col-sm-8 col-8 border border-3">
                         <div className="card-body">
                             <h3 className="card-title mb-3 fw-bold" style={{ marginTop: '20px', marginBottom: '20px'}}>Exercise List</h3>

@@ -36,7 +36,7 @@ const WorkoutPlan = () => {
             <NavBar />
             <main className='Container'>
                 <div className="row justify-content-center gap-4 " style={{ padding: '40px' }}>
-                    {/* --- Generate Workout Plan Card ---*/}
+                    {/* --- Generate Workout Plan Card --- */}
                     <div className="card mb-4 col-lg-3 col-md-8 col-sm-8 col-8 align-items-center border border-3">
                         <div className="card-body">
                             <h3 className="card-title mb-3 fw-bold" style={{ marginTop: '20px', marginBottom: '20px'}}>Generate Workout Plan</h3>

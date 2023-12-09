@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
-import CreateWorkout from './pages/Create'; // Import the CreateWorkout component
+import CreateWorkout from './pages/Create';
 import Exercise from "./pages/Exercise";
 import WorkoutPlan from "./pages/WorkoutPlan";
 

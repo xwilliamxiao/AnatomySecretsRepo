@@ -18,19 +18,18 @@ const CreateWorkout = () => {
             .then(response => response.json())
             .then(data => setWorkoutCards(data))
             .catch(error => console.error('Error fetching data:', error));
-    }, []); // Empty dependency array ensures the effect runs once on mount
+    }, []);
 
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
 
-        // Check if all fields are filled
+        // Alert user if fields are not all inputted
         if (!exercise_name || !exercise_description || !muscle_group) {
             alert('Complete all required fields to create exercise.');
             return;
         }
 
-        // Create a new user-created exercise
         const newUserExercise = {
             exercise_name,
             exercise_description,
@@ -40,12 +39,12 @@ const CreateWorkout = () => {
         // Update the state with the new card
         setWorkoutCards([...workoutCards, newUserExercise]);
 
-        // Clear the input fields
+        // Clear the input fields whenever the inputs are sent
         setExerciseName('');
         setExerciseDescription('');
         setMuscleGroup('');
 
-        // Send a POST request to save the user-created exercise to the backend
+        // POST request to save data
         fetch('http://localhost:8000/create/', {
             method: 'POST',
             headers: {
@@ -56,12 +55,12 @@ const CreateWorkout = () => {
             .then(response => response.json())
             .then(data => {
                 console.log('User-created exercise saved:', data);
-                // Show the toast
                 setShowToast(true);
             })
             .catch(error => console.error('Error saving user-created exercise:', error));
     };
 
+    // Tooltip for hovering effect over button
     const tooltip = <Tooltip>Add exersises for the community.</Tooltip>;
 
     return (
@@ -69,9 +68,8 @@ const CreateWorkout = () => {
             <NavBar/>
         <main className='Container'>
             <div className="row justify-content-center gap-4" style={{ padding: '40px' }}>
-                {/* Create Exercise Card */}
+                {/* --- Create Exercise Card --- */}
                 <div className="card mb-4 col-lg-3 col-md-8 col-sm-8 col-8 align-items-center border border-3 ">
-                {/*<div className="card text-white bg-dark mb-4 col-lg-3 col-md-8 col-sm-8 col-8 align-items-center border border-3">*/}
                     <div className="card-body">
                         <h3 className="card-title mb-3 fw-bold" style={{ marginTop: '20px' }}>Add Exercises</h3>
                         <p>Complete the following criteria below to add exercises into the community.</p>
